@@ -18,76 +18,74 @@ al final la nueva entrada.
 
 public class Ficheros {
     public static void main(String[] args) {
-        crearFicheros(); // Creacion de ficheros si no existen
         mostrarMenu(); //Mostrar menu
     }
 
 
     public static void mostrarMenu() {
+         final String INPUT= "C:\\Users\\arami\\Desktop\\DAM\\ACCESO A DATOS\\UD1\\INPUT.txt";
+         final String OUTPUT= "C:\\Users\\arami\\Desktop\\DAM\\ACCESO A DATOS\\UD1\\OUTPUT.txt";
         int opcionMenu;
         Scanner sc = new Scanner(System.in);
 
 
         do {
             System.out.println("""
+                    ------------------
                     Menú de Ficheros.
-                    Eligge una opcion:
+                    Elige una opcion:
                     1.Introducir texto.
                     2.Traspasar texto
-                    0.Salir""");
+                    0.Salir
+                    ------------------
+                    """);
 
             opcionMenu = sc.nextInt();
 
             switch (opcionMenu) {
                 case 0:
                     System.out.println("Fin del programa");
+                    eliminarFicheros(INPUT,OUTPUT);
                     break;
                 case 1:
                     System.out.println("Has elegido introducir texto");
                     sc.nextLine(); //salto de linea
                     String texto = sc.nextLine();
-
-                    escribirEnFichero("C:\\Users\\arami\\Desktop\\DAM\\ACCESO A DATOS\\UD1\\INPUT.txt", texto);
+                    escribirEnFichero(INPUT, texto);
                     break;
                 case 2:
                     System.out.println("Has elegido traspasar texto");
-                    traspasarTexto();
+                    traspasarTexto(INPUT,OUTPUT);
                     break;
 
                 default:
                     System.out.println("Opcion no valida, vuelva ha escribir una opcion");
 
             }
-        } while (opcionMenu != 0); // continuar bucle mientras que o se elija la opcio de salir
+        } while (opcionMenu != 0); // continuar bucle mientras que no se elija la opcion de salir
 
     }
 
-    //metodo para crear los ficheros si no existen
-    public static void crearFicheros() {
-        File outputFile = new File("C:\\Users\\arami\\Desktop\\DAM\\ACCESO A DATOS\\UD1\\OUTPUT.txt");
-        File intputFile = new File("C:\\Users\\arami\\Desktop\\DAM\\ACCESO A DATOS\\UD1\\INPUT.txt");
+    private static void eliminarFicheros(String input, String output) {
+        File fichero = new File(input);
+        File fichero2 = new File(output);
 
-        try {
-
-            //Creacion del fichero output si no existe
-            if (outputFile.createNewFile()) {
-                System.out.println("Fichero output creado : " + outputFile.getName());
-            } else {
-                System.out.println("El fichero Output ya existe");
+        if(fichero.exists()&& fichero2.exists()){
+            if(fichero.delete()&&fichero2.delete()){
+                System.out.println("Se eliminaron los ficheros");
+            }else {
+                System.out.println("No se pudo eliminar los ficheros" );
             }
 
-            // Creacion del fichero input si no existe
-            if (intputFile.createNewFile()) {
-                System.out.println("Fichero input creado : " + intputFile.getName());
-            } else {
-                System.out.println("El fichero Input ya existe");
-            }
-        } catch (IOException e) {
-            System.out.println("Error al crear ficheros");
-            e.printStackTrace();
+        }else {
+            System.out.println("Los ficheros  no existen");
         }
 
     }
+
+
+
+
 
     //metodo para escribir en los ficheros
     public static void escribirEnFichero(String archivo, String texto) {
@@ -106,10 +104,11 @@ public class Ficheros {
     }
 
     //metodo para traspasar el texto de INPUT.txt a OUTPUT.txt
-    public static void traspasarTexto() {
-        File inputFile = new File("C:\\Users\\arami\\Desktop\\DAM\\ACCESO A DATOS\\UD1\\INPUT.txt");
-        File outputFile = new File("C:\\Users\\arami\\Desktop\\DAM\\ACCESO A DATOS\\UD1\\OUTPUT.txt");
+    public static void traspasarTexto(String input, String output ) {
+        File inputFile = new File(input);
+        File outputFile = new File(output);
 
+        //si tiene contenid eliminar output
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
              FileWriter fw = new FileWriter(outputFile, true);
              BufferedWriter bw = new BufferedWriter(fw)
