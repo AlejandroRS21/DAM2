@@ -1,4 +1,4 @@
-package Acceso_a_datos.UD1;
+package Acceso_a_datos.Repaso;
 
 import java.io.*;
 import java.util.Scanner;
