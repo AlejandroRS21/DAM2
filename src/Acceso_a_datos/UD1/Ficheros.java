@@ -105,26 +105,29 @@ public class Ficheros {
 
     //metodo para traspasar el texto de INPUT.txt a OUTPUT.txt
     public static void traspasarTexto(String input, String output ) {
+
         File inputFile = new File(input);
         File outputFile = new File(output);
-
-        //si tiene contenid eliminar output
-        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
-             FileWriter fw = new FileWriter(outputFile, true);
-             BufferedWriter bw = new BufferedWriter(fw)
-        ) {
-            //leer cada linea de input y escribirla en output
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                bw.write(linea);
-                bw.newLine(); //nueva linea en output
+        if(inputFile.exists()) {
+            //si tiene contenid eliminar output
+            try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
+                 FileWriter fw = new FileWriter(outputFile);
+                 BufferedWriter bw = new BufferedWriter(fw)
+            ) {
+                //leer cada linea de input y escribirla en output
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    bw.write(linea);
+                    bw.newLine(); //nueva linea en output
+                }
+                System.out.println("Texto traspasado de archivo input.txt a output.txt");
+            } catch (IOException e) {
+                System.out.println("Error al traspasar el texto");
+                e.printStackTrace();
             }
-            System.out.println("Texto traspasado de archivo input.txt a output.txt");
-        } catch (IOException e) {
-            System.out.println("Error al traspasar el texto");
-            e.printStackTrace();
+        }else{
+            System.out.println("El fichero INPUT.txt no existe, realice primero el paso (1)");
         }
-
 
     }
 
